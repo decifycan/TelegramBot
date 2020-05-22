@@ -1,2 +1,2 @@
 # TelegramBot
-Bots made with very simple web-scraping very basic and beginner level
+Bot made with very simple web-scraping very basic and beginner level
