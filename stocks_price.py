@@ -167,6 +167,7 @@ def diesel_price():
 ########  Option 7
 def corona_tracker():
     #for world
+    
     url = 'https://www.worldometers.info/coronavirus/'
     source = requests.get(url, headers)
     soup = BeautifulSoup(source.content,'lxml')
@@ -179,11 +180,13 @@ def corona_tracker():
     for i in range(1):
         reply += cases_tally.div.text[:109]
     reply +='\n*Updates in every 20 minutes'
+    
     #for India
+    
     url_ind = 'https://www.worldometers.info/coronavirus/country/india/'
     source = requests.get(url_ind, headers)
     soup = BeautifulSoup(source.content,'lxml')
-    reply_ind = 'Corona Virus Data\n'+'-'*30+'\n'+'India :india \n'
+    reply_ind = 'Corona Virus Data\n'+'-'*30+'\n'+'India\n'
     cases_tally = soup.find_all('div',id='maincounter-wrap')
 
     for i in range(3):
