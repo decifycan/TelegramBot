@@ -1,6 +1,6 @@
 from bot import telegram_chatbot
 from emoji import emojize,demojize
-import telegram
+##import telegram
 
 bot = telegram_chatbot("config.cfg")
 import stocks_price
@@ -10,16 +10,19 @@ update_id = None
 def make_reply(msg):
     if msg is not None:
         msg = msg.decode('utf-8')[2:-1]
-        reply = "Hey there! \nIshan's bot here.\nThis is how can I help! Reply num of choice\n :one: Stock Indexes\n :two: Stock Mkt Facts \n :three: Gold and Silver Price \n :four: Dollar Price\n :five: Petrol Prices\n :six: Diesel Prices\n :seven: Corona Cases"
+        reply = "Hey there! \nManjaro here."
+        menu = "\nThis is how can I help! Reply num of choice\n\n :one: Stock Indexes:chart:\n\n :two: Stock Mkt Facts:yum: \n\n :three: Gold and Silver Price \n\n :four: Dollar:heavy_dollar_sign: Price\n\n :five: Petrol Prices :fuel_pump: \n\n :six: Diesel Prices :fuel_pump:\n\n :seven: Corona Cases \n\n*__Hosted on Ishan's PC__ Apologies if you experience latency."
         print(msg)
         try:
-            if msg.isnumeric() and int(msg) < 8:
-                if int(msg) == 1:
+            if msg.isnumeric() or msg =='/start':
+                if msg == '/start':
+                    return [reply, emojize(menu,use_aliases=True)]
+                elif int(msg) == 1:
                     reply = stocks_price.stock_prices()
                 elif int(msg) == 2:
                     reply = stocks_price.facts()
                 elif int(msg) == 3:
-                    reply = stocks_price.gold_price() + '\n' + stocks_price.silver_price()
+                    return [stocks_price.gold_price(), stocks_price.silver_price()]
                 elif int(msg) == 4:
                     reply = stocks_price.dollar_price()
                 elif int(msg) == 5:
@@ -32,12 +35,12 @@ def make_reply(msg):
                     reply_ind = emojize(reply_ind,use_aliases=True)
                     return [reply,reply_ind]
                 else:
-                    reply = "You might have not read menu properly"'\n'+reply
+                    return [emojize("You have not read menu properly :bangbang:",use_aliases=True),emojize(menu,use_aliases=True)]
             else:
-                reply = reply
+                return [emojize("You have not read menu properly :bangbang:",use_aliases=True),emojize(menu,use_aliases=True)]
         except Exception as e:
             print(e)
-            reply = 'FATAL issues occured will be back soon. This has been reported to admin. Till then try other option'
+            return [emojize('FATAL issues occured will be back :soon:. This has been reported to admin. Till then try other option',use_aliases=True),emojize(menu,use_aliases=True)]
     return emojize(reply,use_aliases=True)
 
 
