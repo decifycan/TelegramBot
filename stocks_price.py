@@ -1,8 +1,11 @@
+import pandas as pd
 from bs4 import BeautifulSoup
 import requests
+from datetime import date,time
 
 headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36'}
 
+#####         Option 1
 def stock_prices():
     url = 'https://www.moneycontrol.com/stocksmarketsindia/'
     source = requests.get(url, headers).text
@@ -24,6 +27,8 @@ def stock_prices():
     stock_price_msg = stock_price_msg.replace('&','n')
     return stock_price_msg
 
+##############      option 2
+
 def facts():
     facts_ = '1. Bombay Stock Exchange (BSE) is the biggest stock exchange in the world in terms of the number of listed companies on an exchange. BSE has over 5,500 listed companies.\n\n\
 2. BSE is also the oldest stock exchange in Asia. It was established in 1875.\n\n\
@@ -34,6 +39,7 @@ def facts():
 7. Nifty has given a return of 11.32 percent p.a. since its inception [till Nov’2017]: The base value of nifty was 1,000 in 1995. Recently nifty crosses 10k mark and it is currently at 10,360 points.'
     return facts_
 
+##############      option 3
 def gold_price():
     gold_url = 'https://www.goodreturns.in/gold-rates/'
     source_of_gold = requests.get(gold_url, headers).text
@@ -69,7 +75,7 @@ def gold_price():
     except Exception as e:
         print(e)    
     return reply_gold
-    
+
 def silver_price():
     #for silver
     silver_url = 'https://www.goodreturns.in/silver-rates/'
