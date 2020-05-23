@@ -1,7 +1,5 @@
-import pandas as pd
 from bs4 import BeautifulSoup
 import requests
-from datetime import date,time
 
 headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36'}
 
@@ -18,12 +16,12 @@ def stock_prices():
     # print(table)
     stock_price_msg = "%-17s%-17s%-17s%-17s"%('INDEX','VALUE','CHNG','%CHNG')
     stock_price_msg += '\n'+len(stock_price_msg)*'-'
+    
     for row in table.find_all('tr'):
         for cell in row.find_all('td'):
             stock_price_msg += '%-17s' % (cell.text)
         stock_price_msg+='\n'
-
-
+        
     stock_price_msg = stock_price_msg.replace('&','n')
     return stock_price_msg
 
@@ -71,11 +69,12 @@ def gold_price():
             for cell in row.find_all('td'):
                 reply_gold += '%-15s' % (cell.text).replace('\n','')
             reply_gold +='\n'
-            
+
     except Exception as e:
-        print(e)    
+        print(e)
     return reply_gold
 
+########   option 3
 def silver_price():
     #for silver
     silver_url = 'https://www.goodreturns.in/silver-rates/'
@@ -95,12 +94,13 @@ def silver_price():
             for cell in row.find_all('td'):
                 reply_silver += '%-15s' % (cell.text).replace('\n','')
             reply_silver += '\n'
-            
+
     except Exception as e:
         print(e)
-        
+
     return reply_silver
 
+##########   option 4
 def dollar_price():
     url = 'http://www.moneycontrol.com/currency/bse-usdinr-price.html'
     source = requests.get(url, headers).text
@@ -114,6 +114,57 @@ def dollar_price():
         print(e)
     return reply
 
+########### option 5
+def petrol_price():
+    url = 'https://www.goodreturns.in/petrol-price.html'
+    reply = ''
+    try:
+        source = requests.get(url, headers)
+        soup = BeautifulSoup(source.content, 'lxml')
+        table = soup.find_all('div', class_ = 'gold_silver_table')[0]
+        reply = 'P E T R O L   P R I C E S\n\n'
+        reply1 = "%-15s%-15s%-15s"%('City','TodayPrice',"YesterdayPrice")+"\n"
+        reply = reply + reply1 + "-"*len(reply1) + '\n'
+        i = 0
+        for row in table.find_all('tr'):
+            if i == 0:
+                i+=1
+                continue
+            for cell in row.find_all('td'):
+                reply += '%-15s' % (cell.text).replace('\n','')
+            reply  += '\n'
+
+    except Exception as e:
+        print(e)
+
+    return reply
+
+#########    Option 6
+def diesel_price():
+    url = 'https://www.goodreturns.in/diesel-price.html'
+    reply = ''
+    try:
+        source = requests.get(url, headers)
+        soup = BeautifulSoup(source.content, 'lxml')
+        table = soup.find_all('div', class_ = 'gold_silver_table')[0]
+        reply = 'D I E S E L   P R I C E S\n\n'
+        reply1 = "%-15s%-15s%-15s"%('City','TodayPrice',"YesterdayPrice")+"\n"
+        reply = reply + reply1 + "-"*len(reply1) + '\n'
+        i = 0
+        for row in table.find_all('tr'):
+            if i == 0:
+                i+=1
+                continue
+            for cell in row.find_all('td'):
+                reply += '%-15s' % (cell.text).replace('\n','')
+            reply  += '\n'
+
+    except Exception as e:
+        print(e)
+
+    return reply
+
+########  Option 7
 def corona_tracker():
     #for world
     url = 'https://www.worldometers.info/coronavirus/'
@@ -141,57 +192,8 @@ def corona_tracker():
     cases_tally = soup.find('div',class_='panel-body')
     for i in range(1):
         reply_ind += cases_tally.div.text[:96]
-    reply_ind +='\n*Updates in every 20 minutes'    
+    reply_ind +='\n*Updates in every 20 minutes'
     return reply,reply_ind
-
-
-def petrol_price():
-    url = 'https://www.goodreturns.in/petrol-price.html'
-    reply = ''
-    try:
-        source = requests.get(url, headers)
-        soup = BeautifulSoup(source.content, 'lxml')
-        table = soup.find_all('div', class_ = 'gold_silver_table')[0]
-        reply = 'P E T R O L   P R I C E S\n\n'
-        reply1 = "%-15s%-15s%-15s"%('City','TodayPrice',"YesterdayPrice")+"\n"
-        reply = reply + reply1 + "-"*len(reply1) + '\n'
-        i = 0
-        for row in table.find_all('tr'):
-            if i == 0:
-                i+=1
-                continue
-            for cell in row.find_all('td'):
-                reply += '%-15s' % (cell.text).replace('\n','')
-            reply  += '\n'
-            
-    except Exception as e:
-        print(e)
-        
-    return reply
-
-def diesel_price():
-    url = 'https://www.goodreturns.in/diesel-price.html'
-    reply = ''
-    try:
-        source = requests.get(url, headers)
-        soup = BeautifulSoup(source.content, 'lxml')
-        table = soup.find_all('div', class_ = 'gold_silver_table')[0]
-        reply = 'D I E S E L   P R I C E S\n\n'
-        reply1 = "%-15s%-15s%-15s"%('City','TodayPrice',"YesterdayPrice")+"\n"
-        reply = reply + reply1 + "-"*len(reply1) + '\n'
-        i = 0
-        for row in table.find_all('tr'):
-            if i == 0:
-                i+=1
-                continue
-            for cell in row.find_all('td'):
-                reply += '%-15s' % (cell.text).replace('\n','')
-            reply  += '\n'
-            
-    except Exception as e:
-        print(e)
-        
-    return reply
 
 
 
